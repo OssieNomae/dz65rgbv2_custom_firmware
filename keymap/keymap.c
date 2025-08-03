@@ -1,22 +1,15 @@
 #include QMK_KEYBOARD_H
 
-enum socd_keycodes {
-  SOCD_W = SAFE_RANGE,
-  SOCD_A,
-  SOCD_S,
-  SOCD_D
+socd_cleaner_t socd_opposing_pairs[] = {
+  {{KC_W, KC_S}, SOCD_CLEANER_LAST},
+  {{KC_A, KC_D}, SOCD_CLEANER_LAST},
 };
-
-bool w_down = false;
-bool a_down = false;
-bool s_down = false;
-bool d_down = false;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_65_ansi(
         QK_GESC,        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_HOME,
-        KC_TAB,         KC_Q,    SOCD_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP,
-        CTL_T(KC_CAPS), SOCD_A,    SOCD_S,    SOCD_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGDN,
+        KC_TAB,         KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_PGUP,
+        CTL_T(KC_CAPS), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGDN,
         KC_LSFT,                 KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, KC_UP,   KC_END,
         KC_LCTL,        KC_LGUI, KC_LALT,                            KC_SPC,                    KC_RALT, MO(1),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
     ),
@@ -28,81 +21,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,        _______, _______,                            _______,                   _______, _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
     )
 };
-
-// SOCD
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-    case SOCD_W:
-        if (record->event.pressed) {
-            if (s_down) {
-                unregister_code(KC_S);
-            }
-            register_code(KC_W);
-            w_down = true;
-        } else {
-            unregister_code(KC_W);
-            w_down = false;
-
-            if (s_down) {
-                register_code(KC_S);
-            }
-
-        }
-        return false;
-        break;
-    case SOCD_A:
-        if (record->event.pressed) {
-            if (d_down) {
-                unregister_code(KC_D);
-            }
-            register_code(KC_A);
-            a_down = true;
-        } else {
-            unregister_code(KC_A);
-            a_down = false;
-
-            if (d_down) {
-                register_code(KC_D);
-            }
-
-        }
-        return false;
-        break;
-    case SOCD_S:
-        if (record->event.pressed) {
-            if (w_down) {
-                unregister_code(KC_W);
-            }
-            register_code(KC_S);
-            s_down = true;
-        } else {
-            unregister_code(KC_S);
-            s_down = false;
-
-            if (w_down) {
-                register_code(KC_W);
-            }
-
-        }
-        return false;
-        break;
-    case SOCD_D:
-        if (record->event.pressed) {
-            if (a_down) {
-                unregister_code(KC_A);
-            }
-            register_code(KC_D);
-            d_down = true;
-        } else {
-            unregister_code(KC_D);
-            d_down = false;
-
-            if (a_down) {
-                register_code(KC_A);
-            }
-        }
-        return false;
-        break;
-    }
-    return true;
-}
