@@ -1,4 +1,6 @@
 #include QMK_KEYBOARD_H
+#include "via.h"
+#include "socd_cleaner.h"
 
 socd_cleaner_t socd_opposing_pairs[] = {
   {{KC_W, KC_S}, SOCD_CLEANER_LAST},
@@ -16,8 +18,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [1] = LAYOUT_65_ansi(
         QK_GESC,        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,  KC_HOME,
         _______,        RM_TOGG, RM_NEXT, RM_HUEU, RM_HUED, RM_SATU, RM_SATD, RM_VALU, RM_VALD, _______, KC_PSCR, KC_SCRL, KC_PAUS, QK_BOOT, KC_PGUP,
-        CTL_T(KC_CAPS), RM_SPDU, RM_SPDD, _______, _______, _______, _______, _______, _______, _______, _______, _______,          EE_CLR,  KC_PGDN,
-        KC_LSFT,                 _______, _______, _______, _______, _______, NK_TOGG, _______, _______, _______, _______, _______, KC_VOLU, KC_MUTE,
+        CTL_T(KC_CAPS), RM_SPDU, RM_SPDD, _______, _______, _______, SOCDON, SOCDOFF, _______, _______, _______, _______,          EE_CLR,  KC_PGDN,
+        KC_LSFT,                 _______, _______, _______, _______, SOCDTOG, NK_TOGG, _______, _______, _______, _______, _______, KC_VOLU, KC_MUTE,
         _______,        _______, _______,                            _______,                   _______, _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
     )
 };
